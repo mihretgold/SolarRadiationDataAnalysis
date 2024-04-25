@@ -36,7 +36,7 @@ def visualize_data(df):
     st.header('Correlation Analysis')
 
     # Calculate correlation matrix
-    correlation_matrix = processed_data.corr()
+    correlation_matrix = df.corr()
 
     # Create a new figure and axis using plt.subplots()
     fig, ax = plt.subplots(figsize=(10, 8))
@@ -53,19 +53,38 @@ def visualize_data(df):
     # Display histograms for selected variables
     st.bar_chart(df[selected_variable].value_counts())
 
-# Get the current directory of the script
-current_dir = os.path.dirname(__file__)
+def main():
+    # Add a title to the app
+    st.title('Solar Data Analysis')
 
-# Navigate to the data folder from the script folder
-data_folder = os.path.join(current_dir, '../data')
+    # Add a sidebar with a title and description
+    st.sidebar.title('Pages')
+    selected_page = st.sidebar.selectbox('Select Page', ['Page 1', 'Page 2', 'Page 3'])
 
-# Fetch data
-data = fetch_data(os.path.join(data_folder, 'benin-malanville.csv'))
+    # Get the current directory of the script
+    current_dir = os.path.dirname(__file__)
 
-# Process data
-try:
-    processed_data = process_data(data)
-    visual_data(processed_data)
-    visualize_data(processed_data)
-except Exception as e:
-    st.error(f"An error occurred: {e}")
+    # Navigate to the data folder from the script folder
+    data_folder = os.path.join(current_dir, '../data')
+
+    # Load different files based on the selected page
+    if selected_page == 'Page 1':
+        file_name = 'benin-malanville.csv'
+    elif selected_page == 'Page 2':
+        file_name = 'sierraleone-bumbuna.csv'
+    elif selected_page == 'Page 3':
+        file_name = 'togo-dapaong_qc.csv'
+
+    # Fetch data
+    data = fetch_data(os.path.join(data_folder, file_name))
+
+    # Process data
+    try:
+        processed_data = process_data(data)
+        visual_data(processed_data)
+        visualize_data(processed_data)
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    main()

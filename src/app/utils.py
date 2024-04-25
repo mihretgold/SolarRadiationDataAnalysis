@@ -168,5 +168,3 @@ def visual_data(df):
     df[['GHI', 'DNI', 'DHI', 'WS', 'Tamb', 'TModA', 'TModB']].hist(bins=20, figsize=(12, 8), color='skyblue', edgecolor='black', alpha=0.7)
     plt.tight_layout()
     plt.show()
-
-
